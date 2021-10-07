@@ -71,7 +71,7 @@ class Comment(db.Model):
 def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if current_user.id != 1 or current_user.name == "Diana, diana, DIANA":
+        if current_user.id != 1:
             return abort(403)
         return f(*args, **kwargs)
 
@@ -172,7 +172,7 @@ def contact():
 
 
 @app.route("/new-post", methods=["GET", "POST"])
-# @admin_only
+@admin_only
 def add_new_post():
     form = CreatePostForm()
     if form.validate_on_submit():
